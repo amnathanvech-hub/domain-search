@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuntPom Garden - ค้นหาโดเมนและเช็คราคาโดเมน</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .header h1 {
+            margin: 0 0 8px 0;
+            color: #1e293b;
+            font-size: 26px;
+        }
+        .header p {
+            margin: 0;
+            color: #64748b;
+            font-size: 15px;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-box input:focus {
+            border-color: #3b82f6;
+        }
+        .search-box button {
+            padding: 14px 24px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .search-box button:hover {
+            background: #2563eb;
+        }
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .result-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+        .result-item.best-option {
+            background: #f3e8ff;
+            border: 2px solid #a855f7;
+        }
+        .registrar-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .btn-check {
+            padding: 8px 16px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        .btn-check:hover {
+            opacity: 0.9;
+        }
+        .about {
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .about h3 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: #334155;
+        }
+        .about p {
+            margin: 0;
+            font-size: 14px;
+            color: #64748b;
+        }
+        .disclosure {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #94a3b8;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🔍 ค้นหาและเปรียบเทียบราคาโดเมน</h1>
+        <p>พิมพ์ชื่อโดเมนที่ต้องการเพื่อเช็คราคาจากผู้ให้บริการ 5 เจ้าชั้นนำ</p>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="domainInput" placeholder="พิมพ์ชื่อโดเมน เช่น mywebsite.com..." onkeypress="handleKeyPress(event)">
+        <button onclick="checkDomain()">ค้นหาโดเมน</button>
+    </div>
+
+    <div class="results-list" id="resultsList">
+        <!-- รายการผู้ให้บริการจะแสดงผลที่นี่ -->
+    </div>
+
+    <div class="about">
+        <h3>เจ้าของสวน - ป้าป้อม @ สะพานข้ามแม่น้ำแคว</h3>
+        <p>เว็บนี้มี CEO แมว 2 ตัวเฝ้าอยู่ครับ 🐾🐱</p>
+    </div>
+
+    <div class="disclosure">
+        <b>ข้อแจ้งสิทธิ์ (Affiliate Disclosure):</b> เว็บไซต์นี้จัดทำขึ้นเพื่อบริการอำนวยความสะดวกในการค้นหาและเปรียบเทียบซื้อโดเมน โดยอาจได้รับค่าตอบแทนเล็กน้อยเมื่อมีการสั่งซื้อผ่านลิงก์
+    </div>
+</div>
+
+<script>
+// *** รายชื่อ 5 ผู้ให้บริการโดเมนระดับท็อป ***
+const registrars = [
+    {name:'Hostinger ⭐ BEST', color:'#673ab7', best:true, link:'https://www.hostinger.com/domain-name-search?REFERRALCODE=YOUR_ID&query='},
+    {name:'GoDaddy', color:'#00838a', link:'https://www.godaddy.com/domainsearch/find?isc=YOUR_ID&domainToCheck='},
+    {name:'Namecheap', color:'#ef6c00', link:'https://www.namecheap.com/domains/registration/results/?affid=YOUR_ID&domain='},
+    {name:'Porkbun', color:'#e91e63', link:'https://porkbun.com/checkout/search?aff=YOUR_ID&q='},
+    {name:'Cloudflare', color:'#f57f17', link:'https://www.cloudflare.com/products/registrar/#search='}
+];
+
+function checkDomain() {
+    const inputVal = document.getElementById('domainInput').value.trim();
+    const resultsList = document.getElementById('resultsList');
+    
+    if (!inputVal) {
+        alert('กรุณาพิมพ์ชื่อโดเมนที่ต้องการค้นหาก่อนครับ');
+        return;
+    }
+
+    resultsList.innerHTML = '';
+
+    registrars.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = `result-item ${item.best ? 'best-option' : ''}`;
+        
+        const targetUrl = item.link + encodeURIComponent(inputVal);
+
+        itemDiv.innerHTML = `
+            <span class="registrar-name" style="color: ${item.color}">${item.name}</span>
+            <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="btn-check" style="background-color: ${item.color}">
+                เช็คราคาที่ ${item.name.replace(' ⭐ BEST', '')}
+            </a>
+        `;
+        resultsList.appendChild(itemDiv);
+    });
+}
+
+function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+        checkDomain();
+    }
+}
+</script>
+
+</body>
+</html>
