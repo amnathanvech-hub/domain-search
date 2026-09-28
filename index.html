@@ -195,6 +195,51 @@ function handleKeyPress(event) {
     }
 }
 </script>
+<!-- โซนแต่งหน้าเพจเพิ่มเติมให้สวยงาม -->
+<style>
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    max-width: 750px;
+    margin: 30px auto;
+  }
+  .feature-card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    text-align: center;
+  }
+  .feature-card h3 {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    color: #2c3e50;
+  }
+  .feature-card p {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 5px;
+  }
+</style>
 
+<!-- แสดงกล่องฟีเจอร์ 3 ช่อง -->
+<div class="features-grid">
+  <div class="feature-card">
+    <div style="font-size: 2rem;">⚡</div>
+    <h3>ค้นหารวดเร็ว</h3>
+    <p>เช็กสถานะโดเมนได้ทันที ไม่ต้องรอนาน</p>
+  </div>
+  <div class="feature-card">
+    <div style="font-size: 2rem;">💡</div>
+    <h3>เปรียบเทียบคุ้มค่า</h3>
+    <p>เช็กราคาตรงจากผู้ให้บริการชั้นนำ</p>
+  </div>
+  <div class="feature-card">
+    <div style="font-size: 2rem;">🔒</div>
+    <h3>ปลอดภัย 100%</h3>
+    <p>ส่งตรงไปยังหน้าจดโดเมนอย่างเป็นทางการ</p>
+  </div>
+</div>
 </body>
 </html>
